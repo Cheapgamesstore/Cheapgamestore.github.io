@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: #1e1e24;
+      color: #ffffff;
+      padding: 15px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .header h1 {
+      font-size: 1.8em;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    /* Navigation buttons as links */
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+      flex-wrap: wrap; /* Wrap for smaller screens */
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 0;
+    }
+
+    nav ul li a {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #ff8c00;
+      color: white;
+      border-radius: 25px;
+      font-size: 1em; /* Adjusted for smaller screens */
+      text-transform: uppercase;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #ff7000;
+    }
+
+    /* Search Section */
+    .search-container {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+    }
+
+    #searchInput, #searchButton {
+      padding: 12px 15px; /* Adjusted padding */
+      border: 1px solid #444;
+      border-radius: 30px;
+      font-size: 16px;
+      background-color: #e9e9e9;
+      color: #000;
+      margin: 0 5px; /* Reduced margin */
+      width: calc(100% - 40px); /* Full width for better touch */
+    }
+
+    #searchButton {
+      background: #ff8c00;
+      color: white;
+      cursor: pointer;
+      border: none;
+      transition: background 0.3s ease;
+    }
+
+    #searchButton:hover {
+      background: #ff7000;
+    }
+
+    /* Product Grid */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product {
+      background-color: #2d2d33;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product img:hover {
+      transform: scale(1.1);
+    }
+
+    .price {
+      font-size: 1.2em;
+      color: #ff8c00;
+      margin: 10px 0;
+    }
+
+    .button {
+      display: block;
+      text-align: center;
+      padding: 12px 20px;
+      background: #ff8c00;
+      color: white;
+      text-transform: uppercase;
+      font-weight: 700;
+      border-radius: 30px;
+      margin: 10px auto;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #ff7000;
+    }
+
+    /* Platform Icons */
+    .platform-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px; /* Reduced margin for better spacing */
+    }
+
+    .platform-icons img {
+      width: 40px; /* Adjusted size for mobile */
+      height: 40px;
+      margin: 0 5px; /* Reduced margin */
+      transition: transform 0.3s ease;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    .platform-icons img:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .header h1 {
+        font-size: 1.5em; /* Adjust header size for mobile */
+      }
+
+      nav ul li a {
+        font-size: 0.9em; /* Smaller nav link font */
+      }
+
+      #searchInput, #searchButton {
+        width: 100%; /* Full width input and button */
+        margin: 5px 0; /* Spacing adjustments */
+      }
+
+      .container {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* More flexible grid */
+      }
+
+      .price {
+        font-size: 1.1em; /* Smaller price font */
+      }
+
+      .button {
+        padding: 10px 15px; /* Smaller button size */
+      }
+    }
+
+    /* Placeholder Sections */
+    .section {
+      padding: 50px 20px;
+      text-align: center;
+      background-color: #1e1e24;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    /* Select Dropdown */
+    .pricing-options {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ff8c00;
+      border-radius: 5px;
+      background-color: #2d2d33;
+      color: #fff;
+    }
+
+    /* Availability Section */
+    .availability {
+      font-size: 1em;
+      color: #ff8c00;
+      margin: 10px 0;
+    }
+
+    /* Social Icons */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+    }
+
+    .social-icons img {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .social-icons img:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <h1>Game Store</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#store">Store</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Search Section -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search for a game..." />
+    <button id="searchButton">Search</button>
+  </div>
+
+  <!-- Placeholder Section: Home -->
+
+  <!-- Product Grid Section: Store -->
+ 
+
+  <!-- Placeholder Section: Contact -->
+  <div class="section" id="store">
+    <h2>Our Products</h2>
+    <div class="container" id="productGrid">
+      <div class="product" data-name="GOD OF WAR RAGNAOK">
+        <img src="godofwar ragnaok.jpg" alt="FC 25" />
+        <div class="price" data-base-price="749">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="749">Primary Rental - &#8377;99</option>
+        
+        </select>
+        <h2>GOD OF WAR RAGNAOK</h2>
+        <div class="availability">In Stock</div>
+       
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+        </div>
+      </div>
+  
+ 
+      <div class="product" data-name="spiderman Miles morales">
+        <img src="spiderman Miles morales.jpg" alt="Spidermanremasteread" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Spiderman remasteread</h2>
+        <div class="availability">In Stock</div>
+        
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="lastofus">
+        <img src="lastofus.jpg" alt="lastofus" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+         
+        </select>
+        <h2>LAST OF US</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+
+      <div class="product" data-name="Spidermanremasteread">
+        <img src="spiderman Miles morales.jpg" alt="Spidermanremasteread" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Spiderman remasteread</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="sekiro">
+        <img src="sekiro.jpg" alt="sekiro" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>sekiro</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Uncharted 4 a thief's end">
+        <img src="28. Uncharted 4 a thief's end.jpg" alt="Uncharted 4 a thief's end" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Uncharted 4 a thief's end</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Witcher 3">
+        <img src="Witcher 3.jpg" alt="Witcher 3" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Witcher 3</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+      <div class="product" data-name="Horizon Forbidden West">
+        <img src="Horizon Forbidden West.jpg" alt="Horizon Forbidden West" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Horizon Forbidden West</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Detroit Become Human">
+        <img src="Detroit Become Human.jpg" alt="Detroit Become Human" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>Detroit Become Human</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="mortal kombat 11 Ultimate Edition">
+        <img src="mortal kombat 11 Ultimate Edition.jpg" alt="mortal kombat 11 Ultimate Edition" />
+        <div class="price" data-base-price="949">&#8377;99</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;99</option>
+     
+        </select>
+        <h2>mortal kombat 11 Ultimate Edition</h2>
+        <div class="availability">In Stock</div>
+        <a href="enquire.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Cyberfunk">
+        <img src="Cyberfunk.jpg" alt="Cyberfunk" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Cyberfunk 2077 Phantom liberty</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Dying Light 2 Stay Human">
+        <img src="Dying Light 2 Stay Human.jpg" alt="Dying Light 2 Stay Human" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Dying Light 2 Stay Human</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Injustice 2">
+        <img src="Injustice 2.jpg" alt="Injustice 2" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Injustice 2</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Hitman 3">
+        <img src="Hitman world of assassination (1,2,3).jpg" alt="Hitman 3" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Hitman 3</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a> 
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Wwe 2k23(Deluxe Edition)">
+        <img src="Wwe 2k24(Deluxe Edition).jpg" alt="Wwe 2k23(Deluxe Edition)" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Wwe 2k23</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Batman Arkham city">
+        <img src="Batman Arkham city.jpg" alt="Batman Arkham city" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Batman Arkham city</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Batman Arkham Knight">
+        <img src="Batman Arkham Knight.jpg" alt="Batman Arkham Knight" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Batman Arkham Knight</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Batman Arkham Asylum">
+        <img src="Batman Arkham Asylum.jpg" alt="Batman Arkham Asylum" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Batman Arkham Asylum</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="ghost of tsushima">
+        <img src="ghost of tsushima.jpg" alt="ghost of tsushima" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Ghost Of Tsushima</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+      <div class="product" data-name="Hellblade">
+        <img src="Hellblade.jpg" alt="Hellblade" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Hellblade</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="Rise of the Tomb Raider">
+        <img src="Rise of the Tomb Raider.jpg" alt="Rise of the Tomb Raider" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Rise of the Tomb Raider</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+      <div class="product" data-name="Tomb raider">
+        <img src="Tomb raider triology.jpg" alt="Tomb raider" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>Tomb raider</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+      <div class="product" data-name="GTA V">
+        <img src="gtavv.jpg" alt="GTA V" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>GTA V</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+      <div class="product" data-name="RDR 2">
+        <img src="rdr2.jpg" alt="RDR 2" />
+        <div class="price" data-base-price="949">&#8377;199</div>
+        <select class="pricing-options" onchange="updatePrice(this)">
+          <option value="primary-rental" data-price="949">Primary Rental - &#8377;199</option>
+     
+        </select>
+        <h2>RDR 2</h2>
+        <div class="availability">In Stock</div>
+        <a href="199.html" class="button">Buy Now</a>
+        <div class="platform-icons">
+       
+        </div>
+      </div>
+
+      <script>
+        function updatePrice(selectElement) {
+          // Get the selected option's price
+          const selectedOption = selectElement.options[selectElement.selectedIndex];
+          const price = selectedOption.getAttribute('data-price');
+          
+          // Find the price display element within the same product
+          const priceElement = selectElement.closest('.product').querySelector('.price');
+          
+          // Update the price display
+          priceElement.innerHTML = `&#8377;${price}`;
+        }
+      </script>
+    
+    <script>  
+      document.getElementById('searchInput').addEventListener('input', function() {  
+          const input = document.getElementById('searchInput').value.toLowerCase();  
+          const products = document.querySelectorAll('.product');  
+          
+          products.forEach(function(product) {  
+              const productName = product.getAttribute('data-name').toLowerCase();  
+              if (productName.includes(input)) {  // Check if the name contains the input
+                  product.style.display = 'block';  // Show matching products  
+              } else {  
+                  product.style.display = 'none';  // Hide non-matching products  
+              }  
+          });  
+      });  
+    </script>
+    
+
+
+
+</body>
+</html>
